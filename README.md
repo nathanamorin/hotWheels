@@ -11,5 +11,8 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 
 ## References
 
-- Web Server
-  * https://www.gnu.org/software/libmicrohttpd/
+* Web Server
+  - https://www.gnu.org/software/libmicrohttpd/
+  - http://grothoff.org/christian/mhd2013gpn.pdf
+  - https://gnunet.org/svn/libmicrohttpd/src/examples/fileserver_example.c
+  - http://sourcecodebrowser.com/libmicrohttpd/0.2.0/fileserver__example_8c_source.html
