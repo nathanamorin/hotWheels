@@ -1,0 +1,5 @@
+
+/*
+
+*/
+int variableGPIO(int value);
