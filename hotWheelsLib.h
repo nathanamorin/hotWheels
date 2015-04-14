@@ -22,7 +22,7 @@ Value is a number between 0 - 100, 0 off, 100 full.
 
 Status file somewhere in filesystem that tells when to stop.
 */
-int variableSpeed(int value);
+int variableSpeed(int value, int GPIO);
 /*
 Value is number between -100 and + 100 where -100 is full reverse and + 100 is full forward
 DEPENDS on variableSpeed*
