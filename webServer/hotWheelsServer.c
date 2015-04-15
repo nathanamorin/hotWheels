@@ -38,8 +38,8 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
 int main(void) {
   struct mg_server *server = mg_create_server(NULL, ev_handler);
 
-  mg_set_option(server, "document_root", "."); 
-  mg_set_option(server, "listening_port", "192.168.10.1:8080");
+  mg_set_option(server, "document_root", "/home/pi/hotWheels/webServer");
+  mg_set_option(server, "listening_port", "192.168.10.1:80");
 
   printf("Starting on port %s\n", mg_get_option(server, "listening_port"));
   for (;;) mg_poll_server(server, 1000);
