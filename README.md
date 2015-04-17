@@ -11,6 +11,11 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 ## Requirements
 * Wiring Pi http://wiringpi.com/ (Version Used Archived under <root>/wiringPi)
 
+## Documentation
+* GPIO 0 - turn right
+* GPIO 2 - turn left
+* 
+
 ## References
 
 * Web Server
