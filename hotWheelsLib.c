@@ -13,6 +13,8 @@ Nathan Morin @nathanamorin
 
 */
 #include "hotWheelsLib.h"
+#include <pthread.h>
+#include <stdio.h>
 
 int initialized = FALSE;
 int frequency = 1/50;
@@ -62,10 +64,40 @@ int variableSpeed(int value, int GPIO, char *fileLoc)
 
 int throttle(int value)
 {
-	if (!initialized) return FAILURE;
-
-
-	return SUCCESS;
+  pinMode(GPIO_FORWARD, OUTPUT);
+  pinMode(GPIO_BACK, OUTPUT);
+  gpio write GPIO_FORWARD 0;
+  gpio write GPIO_BACK 0;
+  
+  value = value * 100;
+  
+  if (value < 0)
+  {
+    value = -value;
+    for (;;)
+    {
+      gpio write GPIO_BACK 1;
+      delay(value);
+      gpio write GPIO_BACK 0;
+      delay(value);
+    }
+  }
+  
+  if (value > 0)
+  {
+    for (;;)
+    {
+      gpio write GPIO_FORWARD 1;
+      delay(value);
+      gpio write GPIO_FORWARD 0;
+      delay(value);
+    }
+  }
+  
+  if (value == 0)
+  {
+    printf("Please select a value for the speed.");
+  }
 }
 
 
