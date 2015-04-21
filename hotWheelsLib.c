@@ -8,7 +8,7 @@ Team Hot Wheels
 Members::
 Tim Cahoe
 Matt Depue
-Matt Morehosue
+Matt Morehouse
 Nathan Morin @nathanamorin
 
 */
