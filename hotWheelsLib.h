@@ -12,17 +12,58 @@ Matt Morehosue
 Nathan Morin @nathanamorin
 
 */
+#include <stdlib.h>
+#include <stdio.h>
+#include <wiringPi.h>
+
+#ifndef SUCCESS
+#define SUCCESS 1
+#endif
+
+#ifndef FAILURE
+#define FAILURE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef STOP_CAR
+#define STOP_CAR 's'
+#endif
+
+#ifndef GPIO_RIGHT
+#define GPIO_RIGHT 0
+#endif
+
+#ifndef GPIO_LEFT
+#define GPIO_LEFT 2
+#endif
+
+#ifndef GPIO_BACK
+#define GPIO_BACK 8
+#endif
+
+#ifndef GPIO_FORWARD
+#define GPIO_FORWARD 7
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //BASE FUNCTIONS
+
+int initHotWheels()
 
 /*
 Value is a number between 0 - 100, 0 off, 100 full.
 PWM Theory - http://raspi.tv/2013/rpi-gpio-0-5-2a-now-has-software-pwm-how-to-use-it
 Status file somewhere in filesystem that tells when to stop.
 */
-int variableSpeed(int value, int GPIO);
+int variableSpeed(int value, int GPIO, char *file);
 /*
 Value is number between -100 and + 100 where -100 is full reverse and + 100 is full forward
 DEPENDS on variableSpeed*
