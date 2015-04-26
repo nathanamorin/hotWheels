@@ -53,6 +53,13 @@ Nathan Morin @nathanamorin
 #endif
 
 
+struct varSpeedInput
+{
+	int value;
+	int GPIO;
+	char fileLoc[50];
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //BASE FUNCTIONS
 
@@ -63,7 +70,7 @@ Value is a number between 0 - 100, 0 off, 100 full.
 PWM Theory - http://raspi.tv/2013/rpi-gpio-0-5-2a-now-has-software-pwm-how-to-use-it
 Status file somewhere in filesystem that tells when to stop.
 */
-int variableSpeed(int value, int GPIO, char *file);
+int variableSpeed(struct varSpeedInput data);
 /*
 Value is number between -100 and + 100 where -100 is full reverse and + 100 is full forward
 DEPENDS on variableSpeed*

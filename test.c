@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void changeSpeed(void)
+void changeSpeed(int i, int gpio, char* file)
 {
 
          FILE *file;
@@ -29,7 +29,7 @@ int webHandler()
 {
     pthread_t hilo1;
 
-    pthread_create(&hilo1,NULL, changeSpeed, NULL);
+    pthread_create(&hilo1,NULL, changeSpeed, 1,2,"test");
 
     printf("The test example web handler function has finished");
     return 0 ;
