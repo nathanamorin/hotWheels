@@ -81,7 +81,8 @@ int main(void) {
   //Change for Actual Car
   mg_set_option(server, "document_root", ".");
   
-  mg_set_option(server, "listening_port", "127.0.0.1:80");
+  //mg_set_option(server, "listening_port", "127.0.0.1:80");
+  mg_set_option(server, "listening_port", "10.188.218.117:80");
   
   //mg_set_option(server, "document_root", "/home/pi/hotWheels/webServer");
   //mg_set_option(server, "listening_port", "192.168.10.1:80");
