@@ -4,10 +4,9 @@
 // This example demostrates how to send arbitrary files to the client.
 
 #include "mongoose.h"
-#include "hotWheelsLib.h"
+//#include "hotWheelsLib.h"
 #include<stdlib.h>
 #include<string.h>
-
 
 
 int getValue(struct mg_connection *conn)
@@ -28,7 +27,7 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
       //printf("%s\n", conn->uri);
       if (strncmp(conn->uri,"/static",7) == 0)
       {
-        // printf("%s\n", conn->uri);
+        printf("%s\n", conn->uri);
         return MG_FALSE;
       }
 
@@ -41,16 +40,9 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
       if (strncmp(conn->uri,"/throttle",9) == 0)
       {
         int value = getValue(conn);
-        // printf("Value returned - %d\n", value);
-        if (value == 0) 
-        {
-          clearThrottle();
-        }
-        else
-        {
-          throttle(value);
-          //digitalWrite(8, HIGH);
-        }
+        printf("Value returned - %d\n", value);
+
+        //throttle(value);
 
         mg_printf_data(conn, "SUCCESS");
 
@@ -61,15 +53,8 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
       {
         int value = getValue(conn);
         printf("Value returned - %d\n", value);
-        if (value == 0) 
-        {
-          clearSteering();
-        }
-        else
-        {
-          //digitalWrite(GPIO_LEFT, HIGH);
-          steering(value);
-        }
+
+        //steering(value);
 
         mg_printf_data(conn, "SUCCESS");
 
@@ -92,13 +77,12 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
 }
 
 int main(void) {
-  initHotWheels();
   struct mg_server *server = mg_create_server(NULL, ev_handler);
   //Change for Actual Car
   mg_set_option(server, "document_root", ".");
   
   //mg_set_option(server, "listening_port", "127.0.0.1:80");
-  mg_set_option(server, "listening_port", "192.168.10.1:80");
+  mg_set_option(server, "listening_port", "10.184.163.249:80");
   
   //mg_set_option(server, "document_root", "/home/pi/hotWheels/webServer");
   //mg_set_option(server, "listening_port", "192.168.10.1:80");

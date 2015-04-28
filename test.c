@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void changeSpeed(int i, int gpio, char* file)
+void changeSpeed(int i, int gpio, char* fileString)
 {
 
          FILE *file;

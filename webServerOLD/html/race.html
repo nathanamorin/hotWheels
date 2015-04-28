@@ -189,7 +189,7 @@ button:hover {
 	context.beginPath();
 	context.strokeStyle = '#ffff00';
 	context.translate(centerX,centerY);
-	var increment = 2;
+	var increment = 3;
 	context.font="15px Helvetica";
 	for (var i=-18; i<=18; i++)
 	{
@@ -256,18 +256,10 @@ button:hover {
 		{
 			output = -1 * value + "% reverse";
 			draw(-1 * value);
-			value -= 40;
 
 		}
-		else if (value > 0)
+		else if (value >= 0)
 		{
-			output = value + "% forward"
-			draw(value);
-			value += 40;
-		}
-		else
-		{
-			value = 0
 			output = value + "% forward"
 			draw(value);
 		}
@@ -291,20 +283,14 @@ button:hover {
 	{
 		//var value = $('#steering_value').val();
 		var output = "";
-		if (value < -40)
+		if (value < 0)
 		{
 			output = -1 * value + "% left"
 
 		}
-		else if (value > 40)
+		else if (value >= 0)
 		{
 			output = value + "% right"
-		}
-		else
-		{
-			value = 0
-			output = value + "% turn"
-			draw(value);
 		}
 		document.querySelector('#steering_output').value = output;
 
@@ -340,7 +326,7 @@ button:hover {
 
 <body [orient="portrait"]>
 	<label >Throttle</label>
-	<input id="throttle_value" class="throttle_value" type=range min=-60 max=60 value=0 class=vertical orient=vertical oninput="throttle(value)"></input>
+	<input id="throttle_value" class="throttle_value" type=range min=-100 max=100 value=0 class=vertical orient=vertical oninput="throttle(value)"></input>
 	<output for=fader id="throttle_output" class="throttle_output">0%</output>
 	<button onclick="throttle(0)">Clear</button>
 	<canvas class="canvas" id="myCanvas" width="600px" height="600px">
