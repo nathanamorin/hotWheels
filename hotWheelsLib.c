@@ -18,13 +18,16 @@ Nathan Morin @nathanamorin
 #include <string.h>
 
 int initialized = FALSE;
-int frequency = 1/50;
 
-char throttleFile[9] = "throttle";
-char steeringFile[9] = "steering";
+double frequency = 1.0/400.0;
+
+int throttleVal = TRUE;
+
+struct varSpeedInput throttleData;
 
 int initHotWheels()
 {
+
 	wiringPiSetup();
 	//Set up pins
 	pinMode(GPIO_RIGHT, OUTPUT);
@@ -40,59 +43,63 @@ int initHotWheels()
 	return SUCCESS;
 }
 
-int variableSpeed(struct varSpeedInput data)
+void *variableSpeed(void *input)
 {
-	if (!initialized) return FAILURE;
-	int GPIO = data.GPIO;
-	char *fileLoc;
-	strcpy(fileLoc, data.fileLoc);
 	
-	FILE *file;
-	int wait_time_on = 1000 * frequency * ((varSpeedInput.value)/100);
-	int wait_time_off = 1000 * frequency * ((100-varSpeedInput.value)/100);
+	if (!initialized) return;
+	struct varSpeedInput *data = input;
+
+	int wait_time_on = 1000 * frequency * (((double)data->value)/100.0);
+	int wait_time_off = 1000 * frequency * ((100.0-(double)data->value)/100.0);
+
+
 	for(;;)
 	{
-		file = fopen(fileLoc, "r");
-		if (fgetc(file) == STOP_CAR) return SUCCESS;
-		fclose(file);
+		if (*(data->enabled) == FALSE) return;
 
-		digitalWrite(GPIO, HIGH);
+		digitalWrite(data->GPIO, HIGH);
 		delay(wait_time_on);
-		
-		digitalWrite(GPIO, LOW);
+
+		digitalWrite(data->GPIO, LOW);
 		delay(wait_time_off);
 
 	}
 
 
-	return SUCCESS;
+
+	return;
 }
 
 
 
 int throttle(int value)
 {
-  if (!initialized) return;
+  if (!initialized) return FAILURE;
+  clearThrottle();
+  throttleVal = TRUE;
+  
   pthread_t thread;
   
   if (value < 0)
   {
     value = -value;
-    struct varSpeedInput data = {value,GPIO_BACK,throttleFile};
-    pthread_create(&thread,NULL, variableSpeed, data);
+    
+    throttleData.value = value;
+    throttleData.GPIO = GPIO_BACK;
+    throttleData.enabled = &throttleVal;
+
+    pthread_create(&thread,NULL, variableSpeed, &throttleData);
 
   }
   
   else if (value > 0)
   {
-    struct varSpeedInput data = {value,GPIO_FORWARD,throttleFile};
-    pthread_create(&thread,NULL, variableSpeed, data);
-	}
+    throttleData.value = value;
+    throttleData.GPIO = GPIO_FORWARD;
+    throttleData.enabled = &throttleVal;
 
-	else if (value == 0)
-  {
-    printf("Please select a value for the speed.");
-  }
+    pthread_create(&thread,NULL, variableSpeed, &throttleData);
+	}
 
   return SUCCESS;
 }
@@ -101,27 +108,18 @@ int throttle(int value)
 
 int steering(int value)
 {
-  if (!initialized) return;
-  pthread_t thread;
+  if (!initialized) return FAILURE;
+  clearSteering();
   
   if (value < 0)
   {
-    value = -value;
-    struct varSpeedInput data = {value,GPIO_LEFT,steeringFile};
-    pthread_create(&thread,NULL, variableSpeed, data);
-
+    digitalWrite(GPIO_LEFT, HIGH);
   }
   
   else if (value > 0)
   {
-    struct varSpeedInput data = {value,GPIO_RIGHT,steeringFile};
-    pthread_create(&thread,NULL, variableSpeed, data);
+    digitalWrite(GPIO_RIGHT, HIGH);
 	}
-
-	else if (value == 0)
-  {
-    printf("Please select a value for the speed.");
-  }
 
   return SUCCESS;
 }
@@ -132,10 +130,13 @@ int clearThrottle()
 {
 	if (!initialized) return FAILURE;
 
-	file = fopen(throttleFile, "w");
-	fputc(STOP_CAR,file);
-	fclose(file);
-
+	throttleVal = FALSE;
+	
+	delay(21);
+	
+	digitalWrite(GPIO_FORWARD, LOW);
+	digitalWrite(GPIO_BACK, LOW);
+	
 	return SUCCESS;
 }
 
@@ -144,9 +145,9 @@ int clearThrottle()
 int clearSteering()
 {
 	if (!initialized) return FAILURE;
-	file = fopen(steeringFile, "w");
-	fputc(STOP_CAR,file);
-	fclose(file);
+
+	digitalWrite(GPIO_RIGHT, LOW);
+	digitalWrite(GPIO_LEFT, LOW);
 
 	return SUCCESS;
 }
