@@ -55,7 +55,11 @@ void *variableSpeed(void *input)
 
 	for(;;)
 	{
-		if (*(data->enabled) == FALSE) return;
+		if (*(data->enabled) == FALSE)
+		{
+			*(data->enabled) = TRUE;
+			return;
+		}
 
 		digitalWrite(data->GPIO, HIGH);
 		delay(wait_time_on);
@@ -65,7 +69,7 @@ void *variableSpeed(void *input)
 
 	}
 
-
+	pthread_exit(0);
 
 	return;
 }
@@ -132,7 +136,11 @@ int clearThrottle()
 
 	throttleVal = FALSE;
 	
-	delay(21);
+	//delay(21);
+	while(throttleVal == FALSE)
+	{
+		delay(1);
+	}
 	
 	digitalWrite(GPIO_FORWARD, LOW);
 	digitalWrite(GPIO_BACK, LOW);

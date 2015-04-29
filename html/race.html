@@ -1,362 +1,44 @@
 <head>
-	<script src="/static/js/jquery-2.1.3.min.js"></script>
-	<script src='/static/js/canvasgauge.js'></script>
-	<script src="/static/js/highlight.min.js"></script>
+	<script src="static/js/jquery-2.1.3.min.js"></script>
+	<script src='static/js/canvasgauge.js'></script>
+	<script src="static/js/highlight.min.js"></script>
+	<script src="static/js/race.js"></script>
+	<link rel="stylesheet" type="text/css" href="static/css/race.css">
 
-
-
-	<style type="text/css">
-		input.throttle_value 
-		{ 
-			-webkit-appearance: slider-vertical; 
-			writing-mode: bt-lr; 
-			width: 25px;
-		}
-
-		input[type=range] {
-  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
-}
-
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-
-input[type=range]:focus {
-  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
-}
-
-/* Special styling for WebKit/Blink */
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 46px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
-}
-
-/* All the same stuff for Firefox */
-input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 46px;
-  border-radius: 3px;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-
-
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
-}
-
-input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
-}
-
-output {
-	font-size: 4em;
-}
-
-
-		button {
-			display: block;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 33px;
-  background: #555c61;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-}
-
-button:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
-}
-	</style>
-
-	<body onload="init();">
-
-
-	<script type="text/javascript">
-
-
-	var enable_acc = true;
-
-	function init()
-	{
-		if (window.DeviceMotionEvent == undefined) {
-        //No accelerometer is present. Use buttons. 
-        alert("no accelerometer");
-    }
-    else {
-        //lockedAllowed = window.screen.lockOrientation("portrait");
-        
-
-
-        window.addEventListener("deviceorientation", accelerometerUpdate, true);
-    }
-
-		screen.lockOrientation('landscape');
-
-    draw(0);
-
-
-	}
-
-   function accelerometerUpdate(event) {
-	   // var aX = event.accelerationIncludingGravity.x;
-	   // var aY = event.accelerationIncludingGravity.y;
-	   // var aZ = event.accelerationIncludingGravity.z;
-	   if (!enable_acc) {return;};
-     var x = event.beta;
-     var y = event.gamma;
-     if (x > 90) {x = 90};
-     if (x < -90) {x = -90};
-
-     x += 90;
-     y += 90;
-
-     x = x / 180;
-     y = y / 180;
-
-     x = (.5 - x) * 500;
-     y = (y - .5) * 500;
-
-     if (x > 100) {x = 100};
-     if (x < -100) {x = -100};
-     if (y > 100) {y = 100};
-     if (y < -100) {y = -100};
-
-     throttle(Math.trunc(x));
-     steering(Math.trunc(y));
-
-
-	   document.querySelector('#acc_x').value = "X - " + x;
-	   document.querySelector('#acc_y').value = "Y - " + y;
-		}
-
-
-
-	function draw(speed)
-	{
-      var  canvas = document.getElementById("myCanvas");
-      var  context = canvas.getContext("2d");
-      context.clearRect(0,0,canvas.width, canvas.height);
-      var centerX = canvas.width / 2;
-      var centerY = canvas.height / 2;
-      var radius = canvas.height / 2 - 20;
-
-      context.beginPath();
-      context.arc(centerX, centerY, radius, Math.PI*0.10, Math.PI*-1.1, true);
-
-      var gradience = context.createRadialGradient(centerX, centerY, radius-radius/2, centerX, centerY, radius-radius/8);
-       gradience.addColorStop(0, '#ff9000');
-       gradience.addColorStop(1, '#000000');
-
-       context.fillStyle = gradience;
-       context.fill();
-       context.closePath();
-       context.restore();
-
-	context.beginPath();
-	context.strokeStyle = '#ffff00';
-	context.translate(centerX,centerY);
-	var increment = 2;
-	context.font="15px Helvetica";
-	for (var i=-18; i<=18; i++)
-	{
-		angle = Math.PI/30*i;
-		sineAngle = Math.sin(angle);
-		cosAngle = -Math.cos(angle);
-
-		if (i % 5 == 0) {
-		context.lineWidth = 8;
-		iPointX = sineAngle *(radius -radius/4);
-		iPointY = cosAngle *(radius -radius/4);
-		oPointX = sineAngle *(radius -radius/7);
-		oPointY = cosAngle *(radius -radius/7);
-
-		wPointX = sineAngle *(radius -radius/2.5);
-		wPointY = cosAngle *(radius -radius/2.5);
-		context.fillText((i+18)*increment,wPointX-2,wPointY+4);
-		}
-		else
-		{
-		context.lineWidth = 2; 			
-		iPointX = sineAngle *(radius -radius/5.5);
-		iPointY = cosAngle *(radius -radius/5.5);
-		oPointX = sineAngle *(radius -radius/7);
-		oPointY = cosAngle *(radius -radius/7);
-		}
-		context.beginPath();
-		context.moveTo(iPointX,iPointY);
-		context.lineTo(oPointX,oPointY);
-		context.stroke();
-		context.closePath();
-	}
-	var numOfSegments = speed/increment;
-	numOfSegments = numOfSegments -18;
-	angle = Math.PI/30*numOfSegments;
-	sineAngle = Math.sin(angle);
-	cosAngle = -Math.cos(angle);
-	pointX = sineAngle *(3/4*radius);
-	pointY = cosAngle *(3/4*radius);
-
-	context.beginPath();
-	context.strokeStyle = '#000000';
-	context.arc(0, 0, 19, 0, 2*Math.PI, true);
-	context.fill();
-        context.closePath();
-
-	context.beginPath();    	
-	context.lineWidth=6;
-	context.moveTo(0,0);
-        context.lineTo(pointX,pointY);
-        context.stroke();
-        context.closePath();
-        context.restore();
-        context.translate(-centerX,-centerY);
-}
-
-
-	function throttle(value)
-	{
-		// var value = $('#throttle_value').val();
-		console.log("value -  " + value);  
-		var output = "";
-		if (value < 0)
-		{
-			output = -1 * value + "% reverse";
-			draw(-1 * value);
-			value -= 40;
-
-		}
-		else if (value > 0)
-		{
-			output = value + "% forward"
-			draw(value);
-			value += 40;
-		}
-		else
-		{
-			value = 0
-			output = value + "% forward"
-			draw(value);
-		}
-		document.querySelector('#throttle_output').value = output;
-
-			
-		$.post( "/throttle?v=" + value, function(data) {
-		  if (data = "SUCCESS")
-		  {
-		  	console.log("SUCCESS");
-		  }
-		  else
-		  {
-		  	console.log("FAILURE");
-		  }
-		});
-
-	}
-
-	function steering(value)
-	{
-		//var value = $('#steering_value').val();
-		var output = "";
-		if (value < -40)
-		{
-			output = -1 * value + "% left"
-
-		}
-		else if (value > 40)
-		{
-			output = value + "% right"
-		}
-		else
-		{
-			value = 0
-			output = value + "% turn"
-			draw(value);
-		}
-		document.querySelector('#steering_output').value = output;
-
-			
-		$.post( "/steering?v=" + value, function(data) {
-		  if (data = "SUCCESS")
-		  {
-		  	console.log("SUCCESS");
-		  }
-		  else
-		  {
-		  	console.log("FAILURE");
-		  }
-		});
-
-	}
-
-	function acc()
-	{
-		if (enable_acc)
-		{
-			enable_acc = false;
-		}
-		else
-		{
-			enable_acc = true;
-		}
-	}
-
-	</script>
+	<title>Race Hot Wheels</title>
 
 </head>
 
-<body [orient="portrait"]>
-	<label >Throttle</label>
-	<input id="throttle_value" class="throttle_value" type=range min=-60 max=60 value=0 class=vertical orient=vertical oninput="throttle(value)"></input>
-	<output for=fader id="throttle_output" class="throttle_output">0%</output>
-	<button onclick="throttle(0)">Clear</button>
-	<canvas class="canvas" id="myCanvas" width="600px" height="600px">
-Your browser does not support the HTML5 canvas tag.</canvas>
-	<br>
-	<br>
+
+
+<body [orient="portrait"] onload="init();">
+	<canvas class="speedometer" id="speedometer" width="600px" height="600px">Your browser does not support the HTML5 canvas tag.</canvas>
+	<div class="content">
+	<div id="throttle" class="throttle">
+		<input id="throttle_value" class="throttle_value" type=range min=-60 max=60 value=0 class=vertical orient=vertical oninput="throttle(value)"></input>
+		<output for=fader id="throttle_output" class="throttle_output">0%</output>
+		<button onclick="throttle(0)">Clear</button>
+	</div>
+
+	<div id="steering" class="steering">
+		
+		<input type="radio" id="turn_left" name="radios" onchange="steering()">
+  	<label for="turn_left">Left</label>
+   
+  	<input type="radio" id="turn_forward" name="radios" checked = "" onchange="steering()">
+  	<label for="turn_forward">Forward</label>
+	
+		<input type="radio" id="turn_right" name="radios" onchange="steering()">
+  	<label for="turn_right">Right</label> 
+	</div>
 	<br>
 
-		<label >Steering</label>
-	<input id="steering_value" class="steering_value" type=range min=-100 max=100 value=0 class=vertical orient=vertical oninput="steering(value)"></input>
-	<output for=fader id="steering_output" class="steering_output">0%</output>
-	<button onclick="steering(0)">Clear</button>
-	<br>
+	<div id="acceleromiter" class="acceleromiter">
+		<output for=fader id="acc_x" class="acc_x">X - 0</output></br>
+		<output for=fader id="acc_y" class="acc_y">Y - 0</output></br>
+		<button onclick="acc()">Disable/Enable Acceleromiter</button>
+	</div>
 
-	<output for=fader id="acc_x" class="acc_x">X - 0</output></br>
-	<output for=fader id="acc_y" class="acc_y">Y - 0</output></br>
-	<button onclick="acc()">Disable/Enable Acceleromiter</button>
+	</div>
 
 </body>
