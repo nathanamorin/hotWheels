@@ -25,6 +25,15 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 * GPIO 8 - go back
 * GPIO 7 - go forward
 
+### Sample Components List
+* RC car - http://www.amazon.com/gp/product/B004CPARWK/ref=oh_aui_detailpage_o00_s00
+* Raspberry Pi - http://www.amazon.com/gp/product/B00AJGM37I/ref=oh_aui_detailpage_o00_s00
+* Breadboard - http://www.amazon.com/microtivity-IB401-400-point-Experiment-Breadboard/dp/B004RXKWDQ/ref=sr_1_1
+* Motor Controller Interface Unit - http://www.amazon.com/gp/product/B00AJGM37I/ref=oh_aui_detailpage_o00_s00
+* Battery Pack - http://www.amazon.com/PNY-Universal-Portable-Rechargeable-Battery/dp/B00LNB2VZW/ref=sr_1_2
+* USB Wifi Card - http://www.amazon.com/Wi-Pi-Raspberry-802-11n-Wireless-Adapter/dp/B00BDW6D7I
+
+
 ## References
 
 * Web Server
