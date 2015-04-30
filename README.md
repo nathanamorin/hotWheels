@@ -12,10 +12,9 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 * Wiring Pi http://wiringpi.com/ (Version Used Archived under <root>/etc/wiringPi)
 
 ## Usage Notes
-
-### Compiling System
-1) Compile web server with 
+* Compile hot wheels server with 
 ```gcc -o hotWheelsServer mongoose.c hotWheelsLib.c hotWheelsServer.c -lpthreads -lwiringPi```
+* Run hot Wheels server with root privilages to run on web port 80.  NOTE: web socket can be configured in hotWheelsServer.c
 
 ## Documentation
 
