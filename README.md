@@ -14,11 +14,13 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 ## Usage Notes
 
 ### Compiling System
-1) Compile web server with ```gcc -o hotWheelsServer mongoose.c hotWheelsLib.c hotWheelsServer.c -lpthreads -lwiringPi```
+1) Compile web server with 
+```gcc -o hotWheelsServer mongoose.c hotWheelsLib.c hotWheelsServer.c -lpthreads -lwiringPi```
 
 ## Documentation
 
-### GPIO PINS USED on Raspberry Pi B+ (note, these values be changed in hotWheelsLib.h)
+### GPIO PINS USED on Raspberry Pi B+ 
+(note, these values be changed in hotWheelsLib.h)
 * GPIO 0 - turn right
 * GPIO 2 - turn left
 * GPIO 8 - go back
