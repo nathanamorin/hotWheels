@@ -32,6 +32,9 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 * Battery Pack - http://www.amazon.com/PNY-Universal-Portable-Rechargeable-Battery/dp/B00LNB2VZW
 * USB Wifi Card - http://www.amazon.com/gp/product/B003MTTJOY
 
+### Demo
+[![Alt text for your video](http://img.youtube.com/vi/eLvGa5sA3TI/0.jpg)](https://www.youtube.com/watch?v=eLvGa5sA3TI)
+
 
 ## References
 
