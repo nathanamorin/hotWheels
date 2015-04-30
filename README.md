@@ -11,7 +11,14 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 ## Requirements
 * Wiring Pi http://wiringpi.com/ (Version Used Archived under <root>/etc/wiringPi)
 
+## Usage Notes
+
+# Compiling System
+1) Compile web server with ```gcc -o hotWheelsServer mongoose.c hotWheelsLib.c hotWheelsServer.c -lpthreads -lwiringPi```
+
 ## Documentation
+
+# GPIO PINS USED on Raspberry Pi B+ (note, these values be changed in hotWheelsLib.h)
 * GPIO 0 - turn right
 * GPIO 2 - turn left
 * GPIO 8 - go back
@@ -20,10 +27,7 @@ This project will design a C library for controlling a simple off-the-shelf RC c
 ## References
 
 * Web Server
-  - https://www.gnu.org/software/libmicrohttpd/
-  - http://grothoff.org/christian/mhd2013gpn.pdf
-  - https://gnunet.org/svn/libmicrohttpd/src/examples/fileserver_example.c
-  - http://sourcecodebrowser.com/libmicrohttpd/0.2.0/fileserver__example_8c_source.html
+  - https://github.com/cesanta/mongoose
 
 * Raspberry Pi GPIO
   - http://pi4j.com/pins/model-b-plus.html

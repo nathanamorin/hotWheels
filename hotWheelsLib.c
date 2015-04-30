@@ -1,6 +1,4 @@
 /*
-Configuration note:: trottle / steering status files will be created in function 
-that tell variableSpeed function stop singling motor movement.
 
 Purdue University
 CNIT 315
@@ -136,11 +134,11 @@ int clearThrottle()
 
 	throttleVal = FALSE;
 	
-	//delay(21);
-	while(throttleVal == FALSE)
-	{
-		delay(1);
-	}
+	delay(21);
+	// while(throttleVal == FALSE)
+	// {
+	// 	delay(1);
+	// }
 	
 	digitalWrite(GPIO_FORWARD, LOW);
 	digitalWrite(GPIO_BACK, LOW);

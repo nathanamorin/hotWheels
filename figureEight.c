@@ -1,4 +1,16 @@
+/*
+Suggested function for automatic figure 8, not tested
 
+Purdue University
+CNIT 315
+Team Hot Wheels
+Members::
+Tim Cahoe
+Matt Depue
+Matt Morehouse
+Nathan Morin @nathanamorin
+
+*/
 
 int figureEight(int value)
 {

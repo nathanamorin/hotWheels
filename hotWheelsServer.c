@@ -1,6 +1,6 @@
 /*
 Hot Wheels Web Server
-Based on mongoose web server
+Requires mongoose web server
 
 Purdue University
 CNIT 315
