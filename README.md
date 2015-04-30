@@ -9,7 +9,7 @@ Professor Eric Matson
 This project will design a C library for controlling a simple off-the-shelf RC car from a on board control unit with local internet access (i.e. raspberry Pi, Arduino).  This library will be demonstrated with a simple web based app that allows the RC car to be navigated through a preset obstacle course.  Below, this team has included the technical requirements for this project, a more detailed project description, next steps for this project, a list of physical components with links to potential products, and references to some preliminary research performed by this team.
 
 ## Requirements
-* Wiring Pi http://wiringpi.com/ (Version Used Archived under <root>/wiringPi)
+* Wiring Pi http://wiringpi.com/ (Version Used Archived under <root>/etc/wiringPi)
 
 ## Documentation
 * GPIO 0 - turn right
